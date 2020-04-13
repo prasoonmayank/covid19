@@ -13,14 +13,22 @@ class Card extends Component {
   constructor () {
     super()
   }
+  componentWillMount () {
+    // console.log(this.props.cur_loc)
+    // console.log(this.props.cur_loc.nativeEvent)
+    // let reqLoc = this.props.locations.filter(loc => loc.lat == this.props.cur_loc.nativeEvent.coordinate.latitude)
+    // console.log(reqLoc)
+  }
   render () {
+    console.log("Printing card")
+    console.log(this.props)
     return (
       <View style={styles.card}>
-        <Text>{this.props.title}</Text>
-        <Text>Red: {this.props.red}</Text>
-        <Text>Yellow: {this.props.yellow}</Text>
-        <Text>Green: {this.props.yellow}</Text>
-        <Text>White: {this.props.white}</Text>
+        <Text>Seventh Day Adventist Hospital</Text>
+        <Text>04:37PM: Red: 75%</Text>
+        <Text>05:30PM: Yellow: 60%</Text>
+        <Text>06:10PM: Yellow: 55%</Text>
+        <Text>06:45PM: Green: 50%</Text>
       </View>
     )
   }
@@ -41,8 +49,11 @@ class Login extends Component {
   render () {
     return (
       <Fragment>
+      <View style={styles.card}>
+        <Text style={styles.headText}>LocationSourcers</Text>
+      </View>
         <View style={styles.card}>
-          <Text>LoginScreen: </Text>
+          <Text>Login: </Text>
         </View>
         <View style={styles.card}>
           <Text>Username</Text>
@@ -93,7 +104,11 @@ export default class App extends Component {
           username: "user2",
           password: "password2"
         },
-        {username: "U"}
+        {username: "U"},
+        {
+          username: "mayankprasoon",
+          password: "testpassword"
+        }
       ],
       locations: [
         {
@@ -224,6 +239,72 @@ export default class App extends Component {
               yellow: 4
             }
           ]
+        },
+        {
+          id: 6,
+          name: "Bhagwan Medical College",
+          lat: 23.396622,
+          long: 85.378039,
+          type: "hospital",
+          time_ranges: [
+            {
+              time: "05:37PM",
+              red: 5,
+              green: 2,
+              yellow: 1
+            }
+          ]
+        },
+        {
+          id: 7,
+          name: "Zaika Store",
+          lat: 23.397695,
+          long: 85.377942,
+          type: "GeneralStore",
+          time_ranges: [
+            {
+              time: "06:30PM",
+              red: 5,
+              yellow: 10, 
+              green: 2
+            },
+            {
+              time: "07:10PM",
+              red: 2,
+              yello: 3,
+              green: 8
+            }
+          ]
+        },
+        {
+          id: 8,
+          name: "Singh General Store",
+          lat: 23.397232,
+          long: 85.379251,
+          type: "GeneralStore",
+          time_ranges: [
+            {
+              time: "07:20PM",
+              red: 2,
+              yellow: 3,
+              green: 5
+            }
+          ]
+        },
+        {
+          id: 9,
+          name: "Ranchi Sweets",
+          lat: 23.400097,
+          long: 85.373854,
+          type: "NA",
+          time_ranges: [
+            {
+              time: "06:30PM",
+              red: 0,
+              yellow: 3,
+              green: 10
+            }
+          ]
         }
       ],
       loginScreen: true,
@@ -269,7 +350,9 @@ export default class App extends Component {
     console.log(err)
   }
 
-  pressMarker = loc => {
+  pressMarker = (loc, sel_loc) => {
+    // console.log(loc)
+    // console.log(sel_loc)
     this.setState({selected_loc: loc, detailView: !this.state.detailView})
   }
 
@@ -348,7 +431,7 @@ export default class App extends Component {
                     longitude: loc.long
                   }}
                   icon={this.getIcon(loc)}
-                  onPress={(loc) => this.pressMarker(loc)}
+                  onPress={(loc) => this.pressMarker(loc, loc)}
                 />
               ))}
             </MapView>
@@ -381,6 +464,8 @@ export default class App extends Component {
             </Modal>
             {this.state.detailView && (
               <Card
+                cur_loc={this.state.selected_loc}
+                locations={this.state.locations}
                 title="Tesst Card"
                 red="5"
                 yellow="2"
@@ -397,6 +482,7 @@ export default class App extends Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
@@ -408,6 +494,10 @@ const styles = StyleSheet.create({
     zIndex: -1
   },
   inMapContainer: {},
+  headText: {
+    fontWeight: 'bold',
+    fontSize: 25
+  },
   card: {
       width: 300,
       maxWidth: '80%',
