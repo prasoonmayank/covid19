@@ -26,6 +26,19 @@ class Card extends Component {
   }
 }
 
+class LoginScreen extends Component {
+  constructor () {
+    super()
+  }
+  render () {
+    return (
+      <View>
+        <Text>Login</Text>
+      </View>
+    )
+  }
+}
+
 export default class App extends Component {
   constructor () {
     super()
@@ -40,7 +53,13 @@ export default class App extends Component {
         white: 0,
         yellow: 0,
         green: 0
-      }
+      },
+      users: [
+        {username: "user1",
+        password: "password1"},
+        {username: "user2",
+        password: "password2"}
+      ]
     }
   }
   componentDidMount() {
